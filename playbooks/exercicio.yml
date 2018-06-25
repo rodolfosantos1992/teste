@@ -1,0 +1,46 @@
+---
+
+#Playbook para instacao de Pacotes
+- name: garatir pacotes basicos do sistema
+  hosts: all
+  tasks:
+   - name: Instalando Pacotes Debian
+     apt:
+      name: "{{ item }}"
+      state: present 
+     with_items:
+      - vim
+      - nano 
+      - sl
+      - ccze
+      - dnsutils
+      - epel-release
+     ignore_errors: yes
+   - name: Instalando Pacotes Centos
+     yum:
+      name: "{{ item }}"
+      state: present
+     with_items:
+      - vim
+      - sl
+      - ccze
+      - bind-utils 
+      - epel-release
+      - nano
+     ignore_errors: yes 
+
+#playbook para criar usuario
+
+- name: Criando usuario no servidor
+  hosts: all
+  tasks:
+   - name: Criando o usuraio no servidor
+     user:
+      name: "{{ item }}"
+      shell: /bin/bash
+      createhome: yes
+     with_items:
+      - devops
+      - maia
+      - developer
+      - 4linux

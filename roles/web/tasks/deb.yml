@@ -1,0 +1,22 @@
+---
+
+- name: Instalando no Debian
+  apt:
+   name: "{{ item }}"
+   state: present
+   update_cache: yes
+  when: ansible_os_family == "Debian"
+  with_items:
+   - apache2
+
+- name: Colocando o index na maquina
+  copy:
+   src: /etc/ansible/roles/web/files/index.html
+   dest: /var/www/html/
+
+- name: Iniciando o apache
+  service:
+   name: apache2
+   state: restarted
+  when: ansible_os_family == "Debian"
+

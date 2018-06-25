@@ -1,0 +1,24 @@
+--- 
+# Planybook para testes condicional
+- name: Exemplo de operador condicional
+  hosts: all
+  
+  tasks:
+   - name: Testando o arquivo profile
+     command: test -f /etc/profile.d/dexter
+     register: result 
+     ignore_errors: yes
+
+   - name: Criando o arquivo caso não exista
+     file:
+      path: /etc/profile.d/dexter
+      owner: root
+      group: root
+      mode: 0644
+      state: touch
+     when: result.rc != 0
+
+   - name: Configurando a variavel da dexter
+     shell: echo "export DEXTER=/opt/dexter" > /etc/profile.d/dexter
+     when: result.rc == 0
+   

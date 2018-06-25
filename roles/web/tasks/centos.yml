@@ -1,0 +1,22 @@
+---
+
+- name: Instalando no Centos
+  yum:
+   name: "{{ item }}"
+   state: present
+   update_cache: yes
+  when: ansible_os_family == "RedHat"
+  with_items:
+   - httpd
+   
+
+- name: Colocando o index na maquina
+  copy:
+   src: /etc/ansible/roles/web/files/index.html
+   dest: /var/www/html/index.html
+
+- name: Iniciando o apache
+  service:
+   name: httpd
+   state: restarted
+  when: ansible_os_family == "RedHat"

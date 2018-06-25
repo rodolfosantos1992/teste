@@ -1,0 +1,23 @@
+---
+
+- name: garatir pacotes basicos do sistema
+  hosts: all
+  tasks:
+   - name: Instalando Pacotes Debian
+     apt:
+      name: "{{ item }}"
+      state: present 
+     with_items:
+#      - vim
+#      - nano
+      -git 
+     ignore_errors: yes
+   - name: Instalando Pacotes Centos
+     yum:
+      name: "{{ item }}"
+      state: present
+     with_items:
+#     - vim
+#      - nano
+      -git
+     ignore_errors: yes 
